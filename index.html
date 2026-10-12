@@ -174,7 +174,7 @@ button {
 button:hover { background: #09649a; }
 
 #searchResults {
-  max-width: 580px;
+  max-width: 850px;
   margin: 15px auto 0;
   text-align: left;
 }
@@ -333,14 +333,70 @@ footer {
       </div>
 
       <div class="sites">
+
         <article class="site">
           <div class="site-icon">🎮</div>
           <h3>Slope</h3>
           <p>Roll down the slope and dodge obstacles!</p>
-          <button onclick="playSlope()">
-            Play Slope ↗
-          </button>
+          <button onclick="playGame('slope.html')">Play Slope ↗</button>
         </article>
+
+        <article class="site">
+          <div class="site-icon">🔷</div>
+          <h3>Geometry Dash</h3>
+          <p>Jump through challenging levels!</p>
+          <button onclick="playGame('geometry-dash.html')">Play Geometry Dash ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🐻</div>
+          <h3>FNAF 1</h3>
+          <p>Survive the night at Freddy's.</p>
+          <button onclick="playGame('fnaf-1.html')">Play FNAF 1 ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🎭</div>
+          <h3>FNAF 2</h3>
+          <p>Survive another night of horror.</p>
+          <button onclick="playGame('fnaf-2.html')">Play FNAF 2 ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">👻</div>
+          <h3>FNAF 3</h3>
+          <p>Enter Fazbear's Fright.</p>
+          <button onclick="playGame('fnaf-3.html')">Play FNAF 3 ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🌙</div>
+          <h3>FNAF 4</h3>
+          <p>Survive your nightmares.</p>
+          <button onclick="playGame('fnaf-4.html')">Play FNAF 4 ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">💜</div>
+          <h3>Deltarune</h3>
+          <p>Explore a mysterious world.</p>
+          <button onclick="playGame('deltarune.html')">Play Deltarune ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🏗️</div>
+          <h3>BuildNow GG</h3>
+          <p>Build and battle opponents.</p>
+          <button onclick="playGame('buildnow-gg.html')">Play BuildNow GG ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🔑</div>
+          <h3>Granny</h3>
+          <p>Escape without getting caught.</p>
+          <button onclick="playGame('granny.html')">Play Granny ↗</button>
+        </article>
+
       </div>
     </section>
   </section>
@@ -398,20 +454,15 @@ function showHome() {
   window.scrollTo(0, 0);
 }
 
-/* Open Slope as its own page */
-function playSlope() {
-  window.location.href = "slope.html";
+/* Open any game as its own page */
+function playGame(file) {
+  window.location.href = file;
 }
 
-/* Keep the old viewer functions for other sites */
+/* Keep the existing viewer available for other websites */
 let currentSiteUrl = "";
 
 function openSite(url) {
-  if (url === "slope.html") {
-    playSlope();
-    return;
-  }
-
   currentSiteUrl = url;
   document.getElementById("browserFrame").src = url;
 
@@ -438,12 +489,52 @@ function closeSite() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-/* Nila's internal site search */
+/* Nila's internal game search */
 const sites = [
   {
     name: "Slope",
     url: "slope.html",
     keywords: "slope game running ball"
+  },
+  {
+    name: "Geometry Dash",
+    url: "geometry-dash.html",
+    keywords: "geometry dash music rhythm platformer"
+  },
+  {
+    name: "FNAF 1",
+    url: "fnaf-1.html",
+    keywords: "fnaf five nights freddy horror"
+  },
+  {
+    name: "FNAF 2",
+    url: "fnaf-2.html",
+    keywords: "fnaf five nights freddy horror"
+  },
+  {
+    name: "FNAF 3",
+    url: "fnaf-3.html",
+    keywords: "fnaf five nights freddy horror"
+  },
+  {
+    name: "FNAF 4",
+    url: "fnaf-4.html",
+    keywords: "fnaf five nights freddy nightmare horror"
+  },
+  {
+    name: "Deltarune",
+    url: "deltarune.html",
+    keywords: "deltarune rpg adventure kris susie ralsei"
+  },
+  {
+    name: "BuildNow GG",
+    url: "buildnow-gg.html",
+    keywords: "buildnow gg building shooting multiplayer"
+  },
+  {
+    name: "Granny",
+    url: "granny.html",
+    keywords: "granny escape horror stealth scary"
   }
 ];
 
@@ -461,7 +552,7 @@ document.getElementById("searchForm").addEventListener("submit", function(e) {
   );
 
   if (!matches.length) {
-    results.textContent = "No matching sites found in Nila.";
+    results.textContent = "No matching games found in Nila.";
     return;
   }
 
@@ -473,8 +564,8 @@ document.getElementById("searchForm").addEventListener("submit", function(e) {
     title.textContent = site.name;
 
     const button = document.createElement("button");
-    button.textContent = "Play Slope ↗";
-    button.onclick = () => window.location.href = site.url;
+    button.textContent = "Play " + site.name + " ↗";
+    button.onclick = () => playGame(site.url);
 
     card.append(title, button);
     results.appendChild(card);
