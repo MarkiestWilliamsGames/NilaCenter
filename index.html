@@ -228,9 +228,32 @@ button:hover { background: #09649a; }
 #viewer {
   display: none;
   margin-top: 35px;
+  overflow: auto;
+}
+
+#closeGame {
+  position: sticky;
+  top: 10px;
+  float: right;
+  z-index: 10000;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  background: #e53935;
+  border: 1px solid #ff7777;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#closeGame:hover {
+  background: #b91c1c;
 }
 
 #browserFrame {
+  display: block;
   width: 100%;
   height: 65vh;
   border: 1px solid #168bff;
@@ -445,11 +468,11 @@ footer {
   </section>
 
   <section id="viewer">
-    <button onclick="closeSite()">← Back to Nila</button>
-    <h2 id="viewTitle">Website</h2>
-    <iframe id="browserFrame" src="about:blank" title="Website viewer"></iframe>
-    <p class="subtitle">Some websites prevent embedded viewing.</p>
-    <button onclick="openSlopeTab()">Open game in new tab ↗</button>
+    <button id="closeGame" onclick="returnToHome()" aria-label="Return to Nila home screen" title="Back to Nila">✕</button>
+    <h2 id="viewTitle">Game</h2>
+    <iframe id="browserFrame" src="about:blank" title="Game viewer"></iframe>
+    <p class="subtitle">If a game does not load here, it may block embedded viewing.</p>
+    <button onclick="openSlopeTab()">Open in new tab ↗</button>
   </section>
 </main>
 
@@ -483,6 +506,11 @@ function showBrowser() {
 }
 
 function showHome() {
+  returnToHome();
+}
+
+function returnToHome() {
+  document.getElementById("browserFrame").src = "about:blank";
   document.getElementById("homePage").style.display = "block";
   document.getElementById("browserPage").style.display = "none";
   document.getElementById("viewer").style.display = "none";
@@ -490,13 +518,19 @@ function showHome() {
   window.scrollTo(0, 0);
 }
 
-/* Open any game as its own page */
-function playGame(file) {
-  window.location.href = file;
-}
-
-/* Keep the existing viewer available for other websites */
 let currentSiteUrl = "";
+
+function playGame(file) {
+  currentSiteUrl = file;
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("browserPage").style.display = "none";
+  document.getElementById("browserFrame").src = file;
+  document.getElementById("viewTitle").textContent =
+    file.replace(/\.html?$/i, "").replace(/[-_]/g, " ");
+  document.getElementById("viewer").style.display = "block";
+  closeMenu();
+  window.scrollTo(0, 0);
+}
 
 function openSite(url) {
   currentSiteUrl = url;
@@ -509,6 +543,8 @@ function openSite(url) {
     document.getElementById("viewTitle").textContent = "Website";
   }
 
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("browserPage").style.display = "none";
   document.getElementById("viewer").style.display = "block";
   document.getElementById("viewer").scrollIntoView();
 }
@@ -520,12 +556,9 @@ function openSlopeTab() {
 }
 
 function closeSite() {
-  document.getElementById("browserFrame").src = "about:blank";
-  document.getElementById("viewer").style.display = "none";
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  returnToHome();
 }
 
-/* Nila's internal game search */
 const sites = [
   {
     name: "Slope",
@@ -633,7 +666,6 @@ document.getElementById("searchForm").addEventListener("submit", function(e) {
   });
 });
 
-/* Cursor dot moves instantly; ring smoothly follows */
 const dot = document.getElementById("cursor-dot");
 const ring = document.getElementById("cursor-ring");
 
