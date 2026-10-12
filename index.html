@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -338,7 +337,7 @@ footer {
           <div class="site-icon">🎮</div>
           <h3>Slope</h3>
           <p>Roll down the slope and dodge obstacles!</p>
-          <button onclick="openSite('slope.html')">
+          <button onclick="playSlope()">
             Play Slope ↗
           </button>
         </article>
@@ -399,13 +398,30 @@ function showHome() {
   window.scrollTo(0, 0);
 }
 
+/* Open Slope as its own page */
+function playSlope() {
+  window.location.href = "slope.html";
+}
+
+/* Keep the old viewer functions for other sites */
 let currentSiteUrl = "";
 
 function openSite(url) {
+  if (url === "slope.html") {
+    playSlope();
+    return;
+  }
+
   currentSiteUrl = url;
   document.getElementById("browserFrame").src = url;
-  document.getElementById("viewTitle").textContent =
-    url === "slope.html" ? "Slope" : new URL(url).hostname;
+
+  try {
+    document.getElementById("viewTitle").textContent =
+      new URL(url, window.location.href).hostname;
+  } catch {
+    document.getElementById("viewTitle").textContent = "Website";
+  }
+
   document.getElementById("viewer").style.display = "block";
   document.getElementById("viewer").scrollIntoView();
 }
@@ -458,7 +474,7 @@ document.getElementById("searchForm").addEventListener("submit", function(e) {
 
     const button = document.createElement("button");
     button.textContent = "Play Slope ↗";
-    button.onclick = () => openSite(site.url);
+    button.onclick = () => window.location.href = site.url;
 
     card.append(title, button);
     results.appendChild(card);
