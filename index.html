@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Game Hub</title>
+<title>Nila</title>
 <style>
 body {
   background: #000;
   color: white;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   text-align: center;
   padding: 20px;
 }
@@ -20,15 +20,15 @@ body::before {
   pointer-events: none;
   z-index: -1;
 }
-button {
+button, input {
   padding: 14px;
   margin: 6px;
   background: #111;
   color: white;
   border: 1px solid #168bff;
   border-radius: 10px;
-  cursor: pointer;
 }
+button { cursor: pointer; }
 iframe {
   width: 100%;
   height: 70vh;
@@ -36,31 +36,51 @@ iframe {
   border-radius: 10px;
   background: #111;
 }
+#search { width: 65%; max-width: 450px; }
 </style>
 </head>
 <body>
 
-<h1 style="color:#38bdf8">🎮 My Game Hub</h1>
+<h1 style="color:#38bdf8">Nila</h1>
 <p>Games, anime and more!</p>
 
+<form action="https://www.google.com/search" method="GET" target="_blank">
+  <input id="search" type="text" name="q" placeholder="Search Google...">
+  <button type="submit">Search</button>
+</form>
+
 <h2>🎮 Games</h2>
-<button onclick="openSite('https://poki.com/')">Poki</button>
-<button onclick="openSite('https://www.crazygames.com/')">CrazyGames</button>
 <button onclick="openSite('https://www.coolmathgames.com/')">Cool Math Games</button>
 
 <h2>🍿 Anime</h2>
 <button onclick="openSite('https://yomi.to/')">Yomi</button>
-<button onclick="openSite('https://www.youtube.com/')">YouTube</button>
 
 <h2 id="siteTitle">Choose a website</h2>
 <iframe id="browser" src="about:blank"></iframe>
-<p id="notice">If a site blocks embedding, it may not load here.</p>
+<p id="notice">Some websites block embedded viewing.</p>
+
+<h3>Server Status</h3>
+<p id="serverStatus">Checking Nila server...</p>
 
 <script>
 function openSite(url) {
   document.getElementById("browser").src = url;
-  document.getElementById("siteTitle").textContent = "Website";
+  document.getElementById("siteTitle").textContent = "Nila Browser";
 }
+
+fetch("https://nilacenter.onrender.com")
+  .then(response => {
+    if (!response.ok) throw new Error("Server error");
+    return response.text();
+  })
+  .then(() => {
+    document.getElementById("serverStatus").textContent =
+      "Nila server is online!";
+  })
+  .catch(() => {
+    document.getElementById("serverStatus").textContent =
+      "Server unavailable. Try again later.";
+  });
 </script>
 
 </body>
