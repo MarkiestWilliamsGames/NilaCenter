@@ -28,20 +28,75 @@ body::before {
   z-index: -1;
 }
 
+/* Sidebar */
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 235px;
+  height: 100vh;
+  padding: 25px 15px;
+  background: #080e18;
+  border-right: 1px solid #19344d;
+  z-index: 1000;
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+}
+
+#sidebar.open { transform: translateX(0); }
+
+#sidebar h2 {
+  color: #38bdf8;
+  margin: 5px 0 30px;
+}
+
+.menu-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 8px 0;
+  padding: 14px;
+  background: #0b1725;
+  border: 1px solid #1a3045;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.menu-button:hover {
+  background: #102943;
+  border-color: #087bff;
+}
+
+#arrow {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  width: 42px;
+  height: 42px;
+  background: #0b1725;
+  color: #38bdf8;
+  border: 1px solid #24577e;
+  border-radius: 10px;
+  font-size: 22px;
+  z-index: 1001;
+  cursor: pointer;
+  transition: left .25s ease;
+}
+
+#arrow.open { left: 248px; }
+
 header {
   max-width: 1050px;
-  margin: auto;
+  margin: 0 auto;
+  padding: 8px 0 25px 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0 25px;
   border-bottom: 1px solid #182536;
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   font-size: 25px;
   font-weight: bold;
 }
@@ -126,19 +181,6 @@ button:hover { background: #09649a; }
   text-align: left;
 }
 
-.result {
-  background: #0b1018;
-  border: 1px solid #1a3045;
-  border-radius: 12px;
-  padding: 15px;
-  margin-top: 10px;
-}
-
-.result p {
-  color: #9caec0;
-  font-size: 14px;
-}
-
 .section { margin-top: 38px; }
 
 .section-heading {
@@ -189,13 +231,22 @@ button:hover { background: #09649a; }
   margin-top: 35px;
 }
 
-#browser {
+#browserFrame {
   width: 100%;
   height: 65vh;
   border: 1px solid #168bff;
   border-radius: 12px;
   background: #111;
   margin-top: 15px;
+}
+
+#browserPage {
+  display: none;
+  text-align: center;
+  padding: 35px 15px;
+  border: 1px solid #19344d;
+  border-radius: 15px;
+  background: #0b1018;
 }
 
 footer {
@@ -216,8 +267,6 @@ footer {
 
   #cursor-dot, #cursor-ring {
     position: fixed;
-    top: 0;
-    left: 0;
     pointer-events: none;
     border-radius: 50%;
     z-index: 99999;
@@ -228,6 +277,8 @@ footer {
     width: 5px;
     height: 5px;
     background: #087bff;
+    top: 0;
+    left: 0;
   }
 
   #cursor-ring {
@@ -235,12 +286,29 @@ footer {
     height: 25px;
     border: 1px solid #087bff;
     box-shadow: 0 0 8px #087bff;
+    top: 0;
+    left: 0;
   }
+}
+
+@media (max-width: 500px) {
+  body { padding: 15px; }
+  #sidebar { width: 210px; }
+  #arrow.open { left: 218px; }
+  header { padding-left: 48px; }
 }
 </style>
 </head>
 
 <body>
+
+<button id="arrow" aria-label="Open menu" onclick="toggleMenu()">›</button>
+
+<aside id="sidebar">
+  <h2>◆ Nila Menu</h2>
+  <button class="menu-button" onclick="showBrowser()">🌐 Browser</button>
+  <button class="menu-button" onclick="showHome()">⌂ Home</button>
+</aside>
 
 <header>
   <div class="brand"><span class="diamond">◆</span> Nila</div>
@@ -248,54 +316,58 @@ footer {
 </header>
 
 <main>
-  <section class="hero">
-    <div class="eyebrow">WELCOME TO YOUR HUB</div>
-    <h1>Explore <span>Nila.</span></h1>
-    <p class="subtitle">Your place for games, anime and discovery.</p>
+  <section id="homePage">
+    <section class="hero">
+      <div class="eyebrow">WELCOME TO YOUR HUB</div>
+      <h1>Explore <span>Nila.</span></h1>
+      <p class="subtitle">Your place for games, anime and discovery.</p>
 
-    <form class="search" id="searchForm">
-      <input id="searchInput" placeholder="Search Nila..." required>
-      <button type="submit">Search ↗</button>
-    </form>
+      <form class="search" id="searchForm">
+        <input id="searchInput" placeholder="Search Nila..." required>
+        <button type="submit">Search ↗</button>
+      </form>
 
-    <div id="searchResults"></div>
+      <div id="searchResults"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <span>◆</span><h2>QUICK ACCESS</h2>
+      </div>
+
+      <div class="sites">
+        <article class="site">
+          <div class="site-icon">🎮</div>
+          <h3>Cool Math Games</h3>
+          <p>Play games, solve puzzles, and challenge yourself.</p>
+          <button onclick="openSite('https://www.coolmathgames.com/')">
+            Open website ↗
+          </button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🍿</div>
+          <h3>Yomi</h3>
+          <p>Visit the anime website.</p>
+          <button onclick="openSite('https://yomi.to/')">
+            Open website ↗
+          </button>
+        </article>
+      </div>
+    </section>
   </section>
 
-  <section class="section">
-    <div class="section-heading">
-      <span>◆</span>
-      <h2>QUICK ACCESS</h2>
-    </div>
-
-    <div class="sites">
-      <article class="site">
-        <div class="site-icon">🎮</div>
-        <h3>Cool Math Games</h3>
-        <p>Play games, solve puzzles, and challenge yourself.</p>
-        <button onclick="openSite('https://www.coolmathgames.com/')">
-          Open website ↗
-        </button>
-      </article>
-
-      <article class="site">
-        <div class="site-icon">🍿</div>
-        <h3>Yomi</h3>
-        <p>Visit the anime website.</p>
-        <button onclick="openSite('https://yomi.to/')">
-          Open website ↗
-        </button>
-      </article>
-    </div>
+  <section id="browserPage">
+    <h1><span>Browser</span></h1>
+    <p class="subtitle">Your browser will go here.</p>
+    <p>Proxy not added yet.</p>
+    <button onclick="showHome()">← Back to Home</button>
   </section>
 
   <section id="viewer">
     <button onclick="closeSite()">← Back to Nila</button>
     <h2 id="viewTitle">Website</h2>
-    <iframe
-      id="browser"
-      src="about:blank"
-      title="Website viewer">
-    </iframe>
+    <iframe id="browserFrame" src="about:blank" title="Website viewer"></iframe>
     <p class="subtitle">Some websites prevent embedded viewing.</p>
   </section>
 </main>
@@ -306,6 +378,52 @@ footer {
 <div id="cursor-ring"></div>
 
 <script>
+function toggleMenu() {
+  const sidebar = document.getElementById("sidebar");
+  const arrow = document.getElementById("arrow");
+
+  sidebar.classList.toggle("open");
+  arrow.classList.toggle("open");
+  arrow.textContent = sidebar.classList.contains("open") ? "‹" : "›";
+}
+
+function closeMenu() {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("arrow").classList.remove("open");
+  document.getElementById("arrow").textContent = "›";
+}
+
+function showBrowser() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("viewer").style.display = "none";
+  document.getElementById("browserPage").style.display = "block";
+  closeMenu();
+  window.scrollTo(0, 0);
+}
+
+function showHome() {
+  document.getElementById("homePage").style.display = "block";
+  document.getElementById("browserPage").style.display = "none";
+  document.getElementById("viewer").style.display = "none";
+  closeMenu();
+  window.scrollTo(0, 0);
+}
+
+function openSite(url) {
+  document.getElementById("browserFrame").src = url;
+  document.getElementById("viewTitle").textContent =
+    new URL(url).hostname;
+  document.getElementById("viewer").style.display = "block";
+  document.getElementById("viewer").scrollIntoView();
+}
+
+function closeSite() {
+  document.getElementById("browserFrame").src = "about:blank";
+  document.getElementById("viewer").style.display = "none";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* Nila's internal site search */
 const sites = [
   {
     name: "Cool Math Games",
@@ -319,21 +437,6 @@ const sites = [
   }
 ];
 
-function openSite(url) {
-  document.getElementById("browser").src = url;
-  document.getElementById("viewTitle").textContent =
-    new URL(url).hostname;
-  document.getElementById("viewer").style.display = "block";
-  document.getElementById("viewer").scrollIntoView();
-}
-
-function closeSite() {
-  document.getElementById("browser").src = "about:blank";
-  document.getElementById("viewer").style.display = "none";
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-/* Search within Nila's listed sites */
 document.getElementById("searchForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -344,45 +447,65 @@ document.getElementById("searchForm").addEventListener("submit", function(e) {
   results.replaceChildren();
 
   const matches = sites.filter(site =>
-    (site.name + " " + site.keywords)
-      .toLowerCase()
-      .includes(query)
+    (site.name + " " + site.keywords).toLowerCase().includes(query)
   );
 
-  if (matches.length === 0) {
+  if (!matches.length) {
     results.textContent = "No matching sites found in Nila.";
     return;
   }
 
   matches.forEach(site => {
     const card = document.createElement("div");
-    card.className = "result";
+    card.className = "site";
 
     const title = document.createElement("h3");
     title.textContent = site.name;
 
-    const description = document.createElement("p");
-    description.textContent = "Open " + site.name + " from Nila.";
-
     const button = document.createElement("button");
     button.textContent = "Open website ↗";
-    button.addEventListener("click", () => openSite(site.url));
+    button.onclick = () => openSite(site.url);
 
-    card.append(title, description, button);
+    card.append(title, button);
     results.appendChild(card);
   });
 });
 
-/* Blue dot and circle cursor */
+/* Cursor dot moves instantly; ring smoothly follows */
 const dot = document.getElementById("cursor-dot");
 const ring = document.getElementById("cursor-ring");
 
+let mouseX = 0;
+let mouseY = 0;
+let ringX = 0;
+let ringY = 0;
+let cursorStarted = false;
+
 document.addEventListener("mousemove", function(e) {
-  dot.style.left = e.clientX + "px";
-  dot.style.top = e.clientY + "px";
-  ring.style.left = e.clientX + "px";
-  ring.style.top = e.clientY + "px";
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  dot.style.left = mouseX + "px";
+  dot.style.top = mouseY + "px";
+
+  if (!cursorStarted) {
+    ringX = mouseX;
+    ringY = mouseY;
+    cursorStarted = true;
+  }
 });
+
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+
+  ring.style.left = ringX + "px";
+  ring.style.top = ringY + "px";
+
+  requestAnimationFrame(animateRing);
+}
+
+animateRing();
 </script>
 
 </body>
