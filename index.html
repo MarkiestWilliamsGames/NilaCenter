@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Game Hub</title>
+<style>
+body {
+  background: #000;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* Blue dots background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(#168bff 1.5px, transparent 1.5px);
+  background-size: 35px 35px;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: -1;
+}
+
+h1 { color: #38bdf8; }
+
+input {
+  padding: 12px;
+  width: 70%;
+  max-width: 400px;
+  border-radius: 10px;
+  border: 1px solid #168bff;
+  background: #111;
+  color: white;
+  margin: 10px;
+}
+
+.games {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+a {
+  background: #111;
+  color: white;
+  padding: 25px;
+  border: 1px solid #168bff;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+a:hover {
+  background: #003366;
+}
+
+h1, h2, p, input, .games {
+  position: relative;
+}
+</style>
+</head>
+
+<body>
+<h1>🎮 My Game Hub</h1>
+<p>Games, anime and more!</p>
+
+<input id="search" placeholder="Search games..."
+oninput="filterGames()">
+
+<h2>🎮 Games</h2>
+<div class="games" id="games">
+<a href="https://poki.com/" target="_blank">Poki</a>
+<a href="https://www.crazygames.com/" target="_blank">CrazyGames</a>
+<a href="https://www.coolmathgames.com/" target="_blank">Cool Math Games</a>
+</div>
+
+<h2>🍿 Anime</h2>
+<div class="games">
+<a href="https://yomi.to/" target="_blank">Yomi</a>
+<a href="https://www.youtube.com/" target="_blank">YouTube</a>
+</div>
+
+<script>
+function filterGames() {
+  const search = document.getElementById("search").value.toLowerCase();
+  document.querySelectorAll("#games a").forEach(game => {
+    game.style.display = game.textContent.toLowerCase().includes(search)
+      ? "" : "none";
+  });
+}
+</script>
+</body>
+</html>
