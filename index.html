@@ -231,7 +231,6 @@ button:hover { background: #09649a; }
   padding-top: 8px;
 }
 
-/* Full-screen game view with no page scrolling */
 body.game-open {
   overflow: hidden;
   height: 100vh;
@@ -263,7 +262,6 @@ body.game-open #viewer {
   padding: 0;
 }
 
-/* Browser-style bar above the game */
 #gameBrowserBar {
   display: none;
 }
@@ -297,7 +295,6 @@ body.game-open #viewTitle {
   border-radius: 8px 8px 0 0;
 }
 
-/* X stays on the right */
 body.game-open #closeGame {
   position: absolute;
   top: 12px;
@@ -352,7 +349,9 @@ body.game-open #arrow {
   cursor: pointer;
 }
 
-#closeGame:hover { background: #b91c1c; }
+#closeGame:hover {
+  background: #b91c1c;
+}
 
 #browserFrame {
   width: 100%;
@@ -458,6 +457,7 @@ footer {
       </div>
 
       <div class="sites">
+
         <article class="site">
           <div class="site-icon">🎮</div>
           <h3>Slope</h3>
@@ -517,7 +517,7 @@ footer {
         <article class="site">
           <div class="site-icon">🔑</div>
           <h3>Granny</h3>
-          <p>Escape without getting caught.</p>
+          <p>Escape the house without getting caught.</p>
           <button onclick="playGame('granny.html')">Play Granny ↗</button>
         </article>
 
@@ -531,30 +531,115 @@ footer {
         <article class="site">
           <div class="site-icon">🏀</div>
           <h3>Basket Random</h3>
-          <p>Play chaotic basketball matches.</p>
+          <p>Play unpredictable basketball matches.</p>
           <button onclick="playGame('basket-random.html')">Play Basket Random ↗</button>
         </article>
 
         <article class="site">
-          <div class="site-icon">🛞</div>
+          <div class="site-icon">🦽</div>
           <h3>Happy Wheels</h3>
-          <p>Navigate dangerous obstacle courses.</p>
+          <p>Survive wild obstacle courses.</p>
           <button onclick="playGame('happy-wheels.html')">Play Happy Wheels ↗</button>
         </article>
 
         <article class="site">
           <div class="site-icon">⛰️</div>
           <h3>PEAK</h3>
-          <p>Take on a challenging climbing adventure.</p>
+          <p>Climb your way through the mountain.</p>
           <button onclick="playGame('peak.html')">Play PEAK ↗</button>
         </article>
 
         <article class="site">
-          <div class="site-icon">🧱</div>
+          <div class="site-icon">🧪</div>
           <h3>People Playground</h3>
           <p>Experiment in a physics sandbox.</p>
           <button onclick="playGame('people-playground.html')">Play People Playground ↗</button>
         </article>
+
+        <article class="site">
+          <div class="site-icon">😵</div>
+          <h3>Dumb Ways to Die</h3>
+          <p>Play funny mini-games and avoid silly accidents.</p>
+          <button onclick="playGame('dumb_ways_to_die.html')">Play Dumb Ways to Die ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🍪</div>
+          <h3>Cookie Clicker</h3>
+          <p>Click cookies and build your cookie empire.</p>
+          <button onclick="playGame('cookie_clicker.html')">Play Cookie Clicker ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">♟️</div>
+          <h3>Chess</h3>
+          <p>Challenge yourself with a game of chess.</p>
+          <button onclick="playGame('chess.html')">Play Chess ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🏀</div>
+          <h3>Basketball Stars</h3>
+          <p>Take on opponents in basketball.</p>
+          <button onclick="playGame('basketball_stars.html')">Play Basketball Stars ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">📚</div>
+          <h3>Baldi's Basics</h3>
+          <p>Try to escape Baldi's school.</p>
+          <button onclick="playGame('baldis_basics.html')">Play Baldi's Basics ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">👨‍👩‍👦</div>
+          <h3>Bad Parenting</h3>
+          <p>Explore a strange horror story.</p>
+          <button onclick="playGame('bad_parenting.html')">Play Bad Parenting ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">⛰️</div>
+          <h3>Getting Over It</h3>
+          <p>Climb your way to the top.</p>
+          <button onclick="playGame('getting_over_it.html')">Play Getting Over It ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🎤</div>
+          <h3>FNF B-Side</h3>
+          <p>Play a Friday Night Funkin' remix.</p>
+          <button onclick="playGame('fnf_b_side.html')">Play FNF B-Side ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🐦</div>
+          <h3>Flappy Bird</h3>
+          <p>Fly between the pipes.</p>
+          <button onclick="playGame('flappy_bird.html')">Play Flappy Bird ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🏐</div>
+          <h3>Volley Random</h3>
+          <p>Play chaotic volleyball matches.</p>
+          <button onclick="playGame('volley_random.html')">Play Volley Random ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">🔫</div>
+          <h3>Pixel Gun 3D</h3>
+          <p>Jump into a pixel-style shooter.</p>
+          <button onclick="playGame('pixel_gun_3d.html')">Play Pixel Gun 3D ↗</button>
+        </article>
+
+        <article class="site">
+          <div class="site-icon">👨‍👦</div>
+          <h3>Who's Your Daddy?</h3>
+          <p>A silly parent-versus-baby game.</p>
+          <button onclick="playGame('who_s_your_daddy_.html')">Play Who's Your Daddy? ↗</button>
+        </article>
+
       </div>
     </section>
   </section>
@@ -570,13 +655,9 @@ footer {
     <div id="gameBrowserBar">
       <h2 id="viewTitle">Game</h2>
     </div>
-
     <button id="closeGame" onclick="closeSite()" aria-label="Close game and return to Nila" title="Back to Nila">✕</button>
-
     <iframe id="browserFrame" src="about:blank" title="Game viewer"></iframe>
-
     <p class="subtitle">If a game does not load here, try opening it in a new tab.</p>
-
     <button onclick="openSlopeTab()">Open game in new tab ↗</button>
   </section>
 </main>
@@ -622,11 +703,8 @@ function showHome() {
   window.scrollTo(0, 0);
 }
 
-let currentSiteUrl = "";
-
 function playGame(file) {
   currentSiteUrl = file;
-
   document.getElementById("homePage").style.display = "none";
   document.getElementById("browserPage").style.display = "none";
   document.getElementById("viewer").style.display = "block";
@@ -640,6 +718,8 @@ function playGame(file) {
   closeMenu();
   window.scrollTo(0, 0);
 }
+
+let currentSiteUrl = "";
 
 function openSite(url) {
   currentSiteUrl = url;
@@ -683,7 +763,19 @@ const sites = [
   { name: "Basket Random", url: "basket-random.html", keywords: "basket random basketball sports two player" },
   { name: "Happy Wheels", url: "happy-wheels.html", keywords: "happy wheels racing ragdoll obstacle" },
   { name: "PEAK", url: "peak.html", keywords: "peak climbing mountain adventure" },
-  { name: "People Playground", url: "people-playground.html", keywords: "people playground physics sandbox" }
+  { name: "People Playground", url: "people-playground.html", keywords: "people playground physics sandbox" },
+  { name: "Dumb Ways to Die", url: "dumb_ways_to_die.html", keywords: "dumb ways to die mini games" },
+  { name: "Cookie Clicker", url: "cookie_clicker.html", keywords: "cookie clicker idle clicking" },
+  { name: "Chess", url: "chess.html", keywords: "chess board strategy" },
+  { name: "Basketball Stars", url: "basketball_stars.html", keywords: "basketball stars sports" },
+  { name: "Baldi's Basics", url: "baldis_basics.html", keywords: "baldi basics school horror" },
+  { name: "Bad Parenting", url: "bad_parenting.html", keywords: "bad parenting horror story" },
+  { name: "Getting Over It", url: "getting_over_it.html", keywords: "getting over it climbing" },
+  { name: "FNF B-Side", url: "fnf_b_side.html", keywords: "fnf b side friday night funkin music" },
+  { name: "Flappy Bird", url: "flappy_bird.html", keywords: "flappy bird flying pipes" },
+  { name: "Volley Random", url: "volley_random.html", keywords: "volley random volleyball" },
+  { name: "Pixel Gun 3D", url: "pixel_gun_3d.html", keywords: "pixel gun 3d shooter" },
+  { name: "Who's Your Daddy?", url: "who_s_your_daddy_.html", keywords: "who's your daddy parent baby" }
 ];
 
 document.getElementById("searchForm").addEventListener("submit", function(e) {
@@ -720,7 +812,6 @@ document.getElementById("searchForm").addEventListener("submit", function(e) {
   });
 });
 
-/* Custom cursor */
 const dot = document.getElementById("cursor-dot");
 const ring = document.getElementById("cursor-ring");
 
