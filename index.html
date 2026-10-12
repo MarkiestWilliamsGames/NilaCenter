@@ -28,7 +28,6 @@ body::before {
   z-index: -1;
 }
 
-/* Sidebar */
 #sidebar {
   position: fixed;
   top: 0;
@@ -259,7 +258,6 @@ footer {
   font-size: 12px;
 }
 
-/* Blue custom cursor */
 @media (pointer: fine) {
   body, button, a, input {
     cursor: none !important;
@@ -338,19 +336,10 @@ footer {
       <div class="sites">
         <article class="site">
           <div class="site-icon">🎮</div>
-          <h3>Cool Math Games</h3>
-          <p>Play games, solve puzzles, and challenge yourself.</p>
-          <button onclick="openSite('https://www.coolmathgames.com/')">
-            Open website ↗
-          </button>
-        </article>
-
-        <article class="site">
-          <div class="site-icon">🍿</div>
-          <h3>Yomi</h3>
-          <p>Visit the anime website.</p>
-          <button onclick="openSite('https://yomi.to/')">
-            Open website ↗
+          <h3>Slope</h3>
+          <p>Roll down the slope and dodge obstacles!</p>
+          <button onclick="openSite('slope.html')">
+            Play Slope ↗
           </button>
         </article>
       </div>
@@ -369,6 +358,7 @@ footer {
     <h2 id="viewTitle">Website</h2>
     <iframe id="browserFrame" src="about:blank" title="Website viewer"></iframe>
     <p class="subtitle">Some websites prevent embedded viewing.</p>
+    <button onclick="openSlopeTab()">Open game in new tab ↗</button>
   </section>
 </main>
 
@@ -409,12 +399,21 @@ function showHome() {
   window.scrollTo(0, 0);
 }
 
+let currentSiteUrl = "";
+
 function openSite(url) {
+  currentSiteUrl = url;
   document.getElementById("browserFrame").src = url;
   document.getElementById("viewTitle").textContent =
-    new URL(url).hostname;
+    url === "slope.html" ? "Slope" : new URL(url).hostname;
   document.getElementById("viewer").style.display = "block";
   document.getElementById("viewer").scrollIntoView();
+}
+
+function openSlopeTab() {
+  if (currentSiteUrl) {
+    window.open(currentSiteUrl, "_blank");
+  }
 }
 
 function closeSite() {
@@ -426,14 +425,9 @@ function closeSite() {
 /* Nila's internal site search */
 const sites = [
   {
-    name: "Cool Math Games",
-    url: "https://www.coolmathgames.com/",
-    keywords: "games puzzles math cool"
-  },
-  {
-    name: "Yomi",
-    url: "https://yomi.to/",
-    keywords: "anime shows"
+    name: "Slope",
+    url: "slope.html",
+    keywords: "slope game running ball"
   }
 ];
 
@@ -463,7 +457,7 @@ document.getElementById("searchForm").addEventListener("submit", function(e) {
     title.textContent = site.name;
 
     const button = document.createElement("button");
-    button.textContent = "Open website ↗";
+    button.textContent = "Play Slope ↗";
     button.onclick = () => openSite(site.url);
 
     card.append(title, button);
