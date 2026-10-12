@@ -120,6 +120,25 @@ button {
 
 button:hover { background: #09649a; }
 
+#searchResults {
+  max-width: 580px;
+  margin: 15px auto 0;
+  text-align: left;
+}
+
+.result {
+  background: #0b1018;
+  border: 1px solid #1a3045;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.result p {
+  color: #9caec0;
+  font-size: 14px;
+}
+
 .section { margin-top: 38px; }
 
 .section-heading {
@@ -234,13 +253,12 @@ footer {
     <h1>Explore <span>Nila.</span></h1>
     <p class="subtitle">Your place for games, anime and discovery.</p>
 
-    <form class="search"
-          action="https://www.google.com/search"
-          method="GET"
-          target="_blank">
-      <input name="q" placeholder="Search Google..." required>
+    <form class="search" id="searchForm">
+      <input id="searchInput" placeholder="Search Nila..." required>
       <button type="submit">Search ↗</button>
     </form>
+
+    <div id="searchResults"></div>
   </section>
 
   <section class="section">
@@ -273,18 +291,34 @@ footer {
   <section id="viewer">
     <button onclick="closeSite()">← Back to Nila</button>
     <h2 id="viewTitle">Website</h2>
-    <iframe id="browser" src="about:blank"></iframe>
+    <iframe
+      id="browser"
+      src="about:blank"
+      title="Website viewer">
+    </iframe>
     <p class="subtitle">Some websites prevent embedded viewing.</p>
   </section>
 </main>
 
 <footer>NILA ◆ YOUR SPACE, YOUR WAY</footer>
 
-<!-- Cursor -->
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
 
 <script>
+const sites = [
+  {
+    name: "Cool Math Games",
+    url: "https://www.coolmathgames.com/",
+    keywords: "games puzzles math cool"
+  },
+  {
+    name: "Yomi",
+    url: "https://yomi.to/",
+    keywords: "anime shows"
+  }
+];
+
 function openSite(url) {
   document.getElementById("browser").src = url;
   document.getElementById("viewTitle").textContent =
@@ -299,6 +333,47 @@ function closeSite() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+/* Search within Nila's listed sites */
+document.getElementById("searchForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const query = document.getElementById("searchInput")
+    .value.trim().toLowerCase();
+
+  const results = document.getElementById("searchResults");
+  results.replaceChildren();
+
+  const matches = sites.filter(site =>
+    (site.name + " " + site.keywords)
+      .toLowerCase()
+      .includes(query)
+  );
+
+  if (matches.length === 0) {
+    results.textContent = "No matching sites found in Nila.";
+    return;
+  }
+
+  matches.forEach(site => {
+    const card = document.createElement("div");
+    card.className = "result";
+
+    const title = document.createElement("h3");
+    title.textContent = site.name;
+
+    const description = document.createElement("p");
+    description.textContent = "Open " + site.name + " from Nila.";
+
+    const button = document.createElement("button");
+    button.textContent = "Open website ↗";
+    button.addEventListener("click", () => openSite(site.url));
+
+    card.append(title, description, button);
+    results.appendChild(card);
+  });
+});
+
+/* Blue dot and circle cursor */
 const dot = document.getElementById("cursor-dot");
 const ring = document.getElementById("cursor-ring");
 
