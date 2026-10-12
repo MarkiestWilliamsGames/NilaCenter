@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -227,33 +226,135 @@ button:hover { background: #09649a; }
 
 #viewer {
   display: none;
+  position: relative;
   margin-top: 35px;
-  overflow: auto;
+  padding-top: 8px;
+}
+
+/* Full-screen game view with no page scrolling */
+body.game-open {
+  overflow: hidden;
+  height: 100vh;
+}
+
+body.game-open main {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  margin: 0;
+  padding: 12px;
+  overflow: hidden;
+}
+
+body.game-open header,
+body.game-open footer {
+  display: none;
+}
+
+body.game-open #viewer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 54px minmax(0, 1fr) auto;
+  gap: 8px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Browser-style bar above the game */
+#gameBrowserBar {
+  display: none;
+}
+
+body.game-open #gameBrowserBar {
+  display: flex;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  align-items: center;
+  min-width: 0;
+  padding: 6px 8px 6px 62px;
+  background: #0b1018;
+  border: 1px solid #1a3045;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 3px 12px #0006;
+}
+
+body.game-open #viewTitle {
+  margin: 0;
+  padding: 8px 14px;
+  min-width: 0;
+  max-width: calc(100% - 8px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  background: #172333;
+  border: 1px solid #28445f;
+  border-bottom-color: #38bdf8;
+  border-radius: 8px 8px 0 0;
+}
+
+/* X stays on the right */
+body.game-open #closeGame {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  float: none;
+  margin: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  z-index: 10000;
+}
+
+body.game-open #browserFrame {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+}
+
+body.game-open #viewer .subtitle {
+  grid-column: 1;
+  grid-row: 3;
+  margin: 0;
+  font-size: 12px;
+}
+
+body.game-open #viewer > button:last-child {
+  grid-column: 2 / -1;
+  grid-row: 3;
+  white-space: nowrap;
+}
+
+body.game-open #arrow {
+  top: 17px;
+  left: 17px;
 }
 
 #closeGame {
-  position: sticky;
-  top: 10px;
   float: right;
-  z-index: 10000;
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   padding: 0;
-  font-size: 25px;
-  font-weight: bold;
-  color: white;
+  margin: 0 0 10px 12px;
   background: #e53935;
-  border: 1px solid #ff7777;
+  border: 1px solid #ff6b6b;
   border-radius: 10px;
+  color: white;
+  font-size: 24px;
+  line-height: 1;
   cursor: pointer;
 }
 
-#closeGame:hover {
-  background: #b91c1c;
-}
+#closeGame:hover { background: #b91c1c; }
 
 #browserFrame {
-  display: block;
   width: 100%;
   height: 65vh;
   border: 1px solid #168bff;
@@ -357,7 +458,6 @@ footer {
       </div>
 
       <div class="sites">
-
         <article class="site">
           <div class="site-icon">🎮</div>
           <h3>Slope</h3>
@@ -455,7 +555,6 @@ footer {
           <p>Experiment in a physics sandbox.</p>
           <button onclick="playGame('people-playground.html')">Play People Playground ↗</button>
         </article>
-
       </div>
     </section>
   </section>
@@ -468,11 +567,17 @@ footer {
   </section>
 
   <section id="viewer">
-    <button id="closeGame" onclick="returnToHome()" aria-label="Return to Nila home screen" title="Back to Nila">✕</button>
-    <h2 id="viewTitle">Game</h2>
+    <div id="gameBrowserBar">
+      <h2 id="viewTitle">Game</h2>
+    </div>
+
+    <button id="closeGame" onclick="closeSite()" aria-label="Close game and return to Nila" title="Back to Nila">✕</button>
+
     <iframe id="browserFrame" src="about:blank" title="Game viewer"></iframe>
-    <p class="subtitle">If a game does not load here, it may block embedded viewing.</p>
-    <button onclick="openSlopeTab()">Open in new tab ↗</button>
+
+    <p class="subtitle">If a game does not load here, try opening it in a new tab.</p>
+
+    <button onclick="openSlopeTab()">Open game in new tab ↗</button>
   </section>
 </main>
 
@@ -498,22 +603,21 @@ function closeMenu() {
 }
 
 function showBrowser() {
+  document.body.classList.remove("game-open");
   document.getElementById("homePage").style.display = "none";
   document.getElementById("viewer").style.display = "none";
   document.getElementById("browserPage").style.display = "block";
+  document.getElementById("browserFrame").src = "about:blank";
   closeMenu();
   window.scrollTo(0, 0);
 }
 
 function showHome() {
-  returnToHome();
-}
-
-function returnToHome() {
-  document.getElementById("browserFrame").src = "about:blank";
+  document.body.classList.remove("game-open");
   document.getElementById("homePage").style.display = "block";
   document.getElementById("browserPage").style.display = "none";
   document.getElementById("viewer").style.display = "none";
+  document.getElementById("browserFrame").src = "about:blank";
   closeMenu();
   window.scrollTo(0, 0);
 }
@@ -522,12 +626,17 @@ let currentSiteUrl = "";
 
 function playGame(file) {
   currentSiteUrl = file;
+
   document.getElementById("homePage").style.display = "none";
   document.getElementById("browserPage").style.display = "none";
-  document.getElementById("browserFrame").src = file;
-  document.getElementById("viewTitle").textContent =
-    file.replace(/\.html?$/i, "").replace(/[-_]/g, " ");
   document.getElementById("viewer").style.display = "block";
+  document.body.classList.add("game-open");
+  document.getElementById("browserFrame").src = file;
+
+  const fileName = file.split("/").pop().replace(/\.html?$/i, "");
+  document.getElementById("viewTitle").textContent =
+    fileName.replace(/[-_]/g, " ").replace(/\b\w/g, char => char.toUpperCase());
+
   closeMenu();
   window.scrollTo(0, 0);
 }
@@ -543,10 +652,9 @@ function openSite(url) {
     document.getElementById("viewTitle").textContent = "Website";
   }
 
-  document.getElementById("homePage").style.display = "none";
-  document.getElementById("browserPage").style.display = "none";
   document.getElementById("viewer").style.display = "block";
-  document.getElementById("viewer").scrollIntoView();
+  document.body.classList.add("game-open");
+  window.scrollTo(0, 0);
 }
 
 function openSlopeTab() {
@@ -556,80 +664,26 @@ function openSlopeTab() {
 }
 
 function closeSite() {
-  returnToHome();
+  document.getElementById("browserFrame").src = "about:blank";
+  currentSiteUrl = "";
+  showHome();
 }
 
 const sites = [
-  {
-    name: "Slope",
-    url: "slope.html",
-    keywords: "slope game running ball"
-  },
-  {
-    name: "Geometry Dash",
-    url: "geometry-dash.html",
-    keywords: "geometry dash music rhythm platformer"
-  },
-  {
-    name: "FNAF 1",
-    url: "fnaf-1.html",
-    keywords: "fnaf five nights freddy horror"
-  },
-  {
-    name: "FNAF 2",
-    url: "fnaf-2.html",
-    keywords: "fnaf five nights freddy horror"
-  },
-  {
-    name: "FNAF 3",
-    url: "fnaf-3.html",
-    keywords: "fnaf five nights freddy horror"
-  },
-  {
-    name: "FNAF 4",
-    url: "fnaf-4.html",
-    keywords: "fnaf five nights freddy nightmare horror"
-  },
-  {
-    name: "Deltarune",
-    url: "deltarune.html",
-    keywords: "deltarune rpg adventure kris susie ralsei"
-  },
-  {
-    name: "BuildNow GG",
-    url: "buildnow-gg.html",
-    keywords: "buildnow gg building shooting multiplayer"
-  },
-  {
-    name: "Granny",
-    url: "granny.html",
-    keywords: "granny escape horror stealth scary"
-  },
-  {
-    name: "Crossy Road",
-    url: "crossy-road.html",
-    keywords: "crossy road crossing traffic arcade"
-  },
-  {
-    name: "Basket Random",
-    url: "basket-random.html",
-    keywords: "basket random basketball sports two player"
-  },
-  {
-    name: "Happy Wheels",
-    url: "happy-wheels.html",
-    keywords: "happy wheels racing ragdoll obstacle"
-  },
-  {
-    name: "PEAK",
-    url: "peak.html",
-    keywords: "peak climbing mountain adventure"
-  },
-  {
-    name: "People Playground",
-    url: "people-playground.html",
-    keywords: "people playground physics sandbox"
-  }
+  { name: "Slope", url: "slope.html", keywords: "slope game running ball" },
+  { name: "Geometry Dash", url: "geometry-dash.html", keywords: "geometry dash music rhythm platformer" },
+  { name: "FNAF 1", url: "fnaf-1.html", keywords: "fnaf five nights freddy horror" },
+  { name: "FNAF 2", url: "fnaf-2.html", keywords: "fnaf five nights freddy horror" },
+  { name: "FNAF 3", url: "fnaf-3.html", keywords: "fnaf five nights freddy horror" },
+  { name: "FNAF 4", url: "fnaf-4.html", keywords: "fnaf five nights freddy nightmare horror" },
+  { name: "Deltarune", url: "deltarune.html", keywords: "deltarune rpg adventure kris susie ralsei" },
+  { name: "BuildNow GG", url: "buildnow-gg.html", keywords: "buildnow gg building shooting multiplayer" },
+  { name: "Granny", url: "granny.html", keywords: "granny escape horror stealth scary" },
+  { name: "Crossy Road", url: "crossy-road.html", keywords: "crossy road crossing traffic arcade" },
+  { name: "Basket Random", url: "basket-random.html", keywords: "basket random basketball sports two player" },
+  { name: "Happy Wheels", url: "happy-wheels.html", keywords: "happy wheels racing ragdoll obstacle" },
+  { name: "PEAK", url: "peak.html", keywords: "peak climbing mountain adventure" },
+  { name: "People Playground", url: "people-playground.html", keywords: "people playground physics sandbox" }
 ];
 
 document.getElementById("searchForm").addEventListener("submit", function(e) {
@@ -666,6 +720,7 @@ document.getElementById("searchForm").addEventListener("submit", function(e) {
   });
 });
 
+/* Custom cursor */
 const dot = document.getElementById("cursor-dot");
 const ring = document.getElementById("cursor-ring");
 
